@@ -53,7 +53,6 @@ def add_entry():
     print('Post "{}"\n by {} added on {}\nContent: {}'.format(title, author, post_date, content))
     return blog()
     
-    
+application = bottle.default_app()
+application.run()
 
-bottle.debug(True)
-bottle.run(host='localhost', port=8086)  # Start the webserver running and wait for requests
