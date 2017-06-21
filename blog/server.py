@@ -19,7 +19,7 @@ def server_static(directory, filename):
     
 @bottle.route('/')
 def index():
-    return bottle.template('index', page='index')
+    return bottle.template('index2', page='index')
     
 @bottle.route('/about')
 def about():
