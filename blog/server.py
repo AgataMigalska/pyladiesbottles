@@ -42,7 +42,7 @@ def add_entry():
     data['TITLE'] = bottle.request.forms.get('title')
     data['AUTHOR'] = bottle.request.forms.get('author')
     data['CONTENT'] = bottle.request.forms.get('content')
-    data['POST_DATE'] = datetime.datetime.fromtimestamp(time.time())
+    data['POST_DATE'] = datetime.fromtimestamp(time.time())
     from dao import DataAccessObject
     with DataAccessObject() as data_access_object:
         data_access_object.insert(data)
