@@ -26,18 +26,10 @@ def about():
     
 @bottle.get('/blog')
 def blog():
-    import lorem
-    import random 
-    
-    posts = []
-    today = date.today().toordinal()    
-    for i in range(10):
-        paragraph = lorem.text()
-        post_date = date.fromordinal(random.randint(0, today))
-        title = lorem.sentence()
-        post_dict = {'post': paragraph, 'date' : post_date, 'author': 'agata', 'title': title}
-        posts.append(post_dict)
-    posts = sorted(posts, key=lambda post : post['date'])
+    from dao import DataAccessObject
+    with DataAccessObject() as data_access_object:
+        posts = data_access_object.select()
+    print(posts)
     return bottle.template('blog2', posts=posts, page='blog')
     
 @bottle.get('/post')
@@ -55,5 +47,6 @@ def add_entry():
     return blog()
     
 application = bottle.default_app()
+application.run()
 
 

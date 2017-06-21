@@ -31,7 +31,7 @@ def get_database_connection():
                                    charset=charset, buffered=buffered)
 
 class DataAccessObject(object):
-
+    
     def __init__(self):
         self.connection = None
         self.cursor = None
@@ -69,9 +69,12 @@ class DataAccessObject(object):
         
         
     def select(self):
-        return self.execute('SELECT title, content, author, post_date FROM posts')
+        return self.execute('SELECT TITLE, CONTENT, AUTHOR, POST_DATE FROM POSTS')
         
-    
+    def insert(self, data):
+        return self.execute("INSERT INTO POSTS(TITLE, CONTENT, AUTHOR, " + 
+        "POST_DATE) VALUES (%(TITLE)s), %(CONTENT)s, %(AUTHOR), " + 
+        "STR_TO_DATE(%(POST_DATE)s,'%m/%d/%Y %H:%i:%s')s)", data)
 
 
 def create_test_data(num=10, author = 'Jenny'):
