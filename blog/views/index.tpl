@@ -8,5 +8,6 @@
 <body>
 <h1>Message in the Bottle!</h1>
 <h2>Main page</h2>
+<a href="/blog">Blog</a>
 </body>
 </html>
