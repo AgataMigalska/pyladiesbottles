@@ -5,13 +5,8 @@ Created on Tue Jun 20 22:34:38 2017
 @author: onomatopeia
 """
 
-import lorem
-import random 
 import os
-import datetime
 import configparser
-import mysql.connector
-
 
 def get_config():
     base_dir = os.path.dirname(__file__)
@@ -20,6 +15,7 @@ def get_config():
     return config
 
 def get_database_connection():
+    import mysql.connector
     config = get_config()
     database = config.get('mysql','database')
     user = config.get('mysql','user')
@@ -30,7 +26,34 @@ def get_database_connection():
     return mysql.connector.connect(user=user, password=password, host=host, database=database,
                                    charset=charset, buffered=buffered)
 
+class MockDataAccessObject(object):
+    def select(self):
+        import lorem
+        import random 
+        from datetime import date
+        posts = []
+        today = date.today().toordinal()    
+        for i in range(10):
+            paragraph = lorem.text()
+            post_date = date.fromordinal(random.randint(0, today))
+            title = lorem.sentence()
+            post_dict = {'CONTENT': paragraph, 'POST_DATE' : post_date, 'AUTHOR': 'agata', 'TITLE': title}
+            posts.append(post_dict)
+        posts = sorted(posts, key=lambda post : post['POST_DATE'])
+        return posts
+        
+    def insert(self, data):
+        print(data)
+        
+    def __enter__(self):
+        print('entering dao')
+        return self
+        
+    def __exit__(self, *err):
+        print('exiting dao')
+    
 class DataAccessObject(object):
+    
     
     def __init__(self):
         self.connection = None
@@ -76,28 +99,3 @@ class DataAccessObject(object):
         "POST_DATE) VALUES (%(TITLE)s, %(CONTENT)s, %(AUTHOR)s, " + 
         "%(POST_DATE)s)", data)
         self.commit()
-
-
-def create_test_data(num=10, author = 'Jenny'):
-    
-    top = "INSERT INTO POSTS(TITLE,AUTHOR,POST_DATE,CONTENT) VALUES\n"  
-    lines = []
-    csv_lines = []
-
-    today = datetime.datetime.now()
-    for i in range(num):
-        paragraph = lorem.text()
-        paragraph = "<br />".join(paragraph.split("\n"))
-        post_date = today - datetime.timedelta(days=random.randint(1, 365))
-        title = lorem.sentence()
-        lines.append('("{}","{}","{}","{}")'.format(title, author, post_date.strftime("%Y-%m-%d %H:%M:%S"), paragraph))
-        csv_lines.append('{},{},{},{}\n'.format(title, author, post_date.strftime("%Y-%m-%d %H:%M:%S"), paragraph))
-        
-    with open(os.path.join('db','test_data.sql'), 'w', newline='') as outfile:
-        outfile.writelines([top, ',\n'.join(lines)])
-    with open(os.path.join('db','test_data.csv'),'w') as outfile:
-        outfile.writelines(csv_lines)
-        
-        
-if __name__ == '__main__':
-    create_test_data()

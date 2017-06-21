@@ -19,7 +19,7 @@ def server_static(directory, filename):
     
 @bottle.route('/')
 def index():
-    return bottle.template('index2', page='index')
+    return bottle.template('index', page='index')
     
 @bottle.route('/about')
 def about():
@@ -27,10 +27,9 @@ def about():
     
 @bottle.get('/blog')
 def blog():
-    from dao import DataAccessObject
-    with DataAccessObject() as data_access_object:
+    with get_dao() as data_access_object:
         posts = data_access_object.select()
-    return bottle.template('blog2', posts=posts, page='blog')
+    return bottle.template('blog', posts=posts, page='blog')
     
 @bottle.get('/post')
 def new_entry():
@@ -43,12 +42,16 @@ def add_entry():
     data['AUTHOR'] = bottle.request.forms.get('author')
     data['CONTENT'] = bottle.request.forms.get('content')
     data['POST_DATE'] = datetime.now()
-    from dao import DataAccessObject
-    with DataAccessObject() as data_access_object:
+    
+    with get_dao() as data_access_object:
         data_access_object.insert(data)
     return blog()
     
+def get_dao():
+    import dao
+    return dao.MockDataAccessObject()
+
 application = bottle.default_app()
-# application.run()
+application.run()
 
 

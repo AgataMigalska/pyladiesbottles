@@ -1,3 +1,4 @@
 *.pyc
 blog/db/settings.ini
 .spyproject/
+.ipynb_checkpoints/
