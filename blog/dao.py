@@ -73,8 +73,8 @@ class DataAccessObject(object):
         
     def insert(self, data):
         return self.execute("INSERT INTO POSTS(TITLE, CONTENT, AUTHOR, " + 
-        "POST_DATE) VALUES (%(TITLE)s), %(CONTENT)s, %(AUTHOR), " + 
-        "STR_TO_DATE(%(POST_DATE)s,'%m/%d/%Y %H:%i:%s')s)", data)
+        "POST_DATE) VALUES (%(TITLE)s, %(CONTENT)s, %(AUTHOR)s, " + 
+        "STR_TO_DATE(%(POST_DATE)s,'%m/%d/%Y %H:%i:%s'))", data)
 
 
 def create_test_data(num=10, author = 'Jenny'):
