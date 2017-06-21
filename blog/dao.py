@@ -74,7 +74,7 @@ class DataAccessObject(object):
     def insert(self, data):
         self.execute("INSERT INTO POSTS(TITLE, CONTENT, AUTHOR, " + 
         "POST_DATE) VALUES (%(TITLE)s, %(CONTENT)s, %(AUTHOR)s, " + 
-        "STR_TO_DATE(%(POST_DATE)s,'%m/%d/%Y %H:%i:%s'))", data)
+        "%(POST_DATE)s)", data)
         self.commit()
 
 
