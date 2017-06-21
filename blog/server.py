@@ -7,7 +7,7 @@ Created on Fri Jun 16 22:09:52 2017
 
 import bottle
 import os
-from datetime import date
+from datetime import datetime
 
 @bottle.route('/static/<directory>/<filename>')
 def server_static(directory, filename):
@@ -29,21 +29,22 @@ def blog():
     from dao import DataAccessObject
     with DataAccessObject() as data_access_object:
         posts = data_access_object.select()
-    print(posts)
     return bottle.template('blog2', posts=posts, page='blog')
     
 @bottle.get('/post')
 def new_entry():
-    
     return bottle.template('post', page='post')
     
 @bottle.post('/blog')
 def add_entry():
-    title = bottle.request.forms.get('title')
-    author = bottle.request.forms.get('author')
-    content = bottle.request.forms.get('content')
-    post_date = date.today()
-    print('Post "{}"\n by {} added on {}\nContent: {}'.format(title, author, post_date, content))
+    data = dict()
+    data['TITLE'] = bottle.request.forms.get('title')
+    data['AUTHOR'] = bottle.request.forms.get('author')
+    data['CONTENT'] = bottle.request.forms.get('content')
+    data['POST_DATE'] = datetime.now()
+    from dao import DataAccessObject
+    with DataAccessObject() as data_access_object:
+        data_access_object.insert(data)
     return blog()
     
 application = bottle.default_app()
