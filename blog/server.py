@@ -11,7 +11,8 @@ from datetime import date
 
 @bottle.route('/static/<directory>/<filename>')
 def server_static(directory, filename):
-    root = os.path.join(os.getcwd(), 'static', directory)
+    base_dir = os.path.dirname(__file__)
+    root = os.path.join(base_dir, 'static', directory)
     print(root)
     return bottle.static_file(filename, root=root)
     
@@ -54,5 +55,5 @@ def add_entry():
     return blog()
     
 application = bottle.default_app()
-application.run()
+
 
