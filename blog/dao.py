@@ -69,7 +69,7 @@ class DataAccessObject(object):
         
         
     def select(self):
-        return self.execute('SELECT TITLE, CONTENT, AUTHOR, POST_DATE FROM POSTS', {})
+        return self.execute('SELECT TITLE, CONTENT, AUTHOR, POST_DATE FROM POSTS ORDER BY POST_DATE DESC', {})
         
     def insert(self, data):
         self.execute("INSERT INTO POSTS(TITLE, CONTENT, AUTHOR, " + 

@@ -8,6 +8,7 @@ Created on Fri Jun 16 22:09:52 2017
 import bottle
 import os
 from datetime import datetime
+import time
 
 @bottle.route('/static/<directory>/<filename>')
 def server_static(directory, filename):
@@ -41,7 +42,7 @@ def add_entry():
     data['TITLE'] = bottle.request.forms.get('title')
     data['AUTHOR'] = bottle.request.forms.get('author')
     data['CONTENT'] = bottle.request.forms.get('content')
-    data['POST_DATE'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    data['POST_DATE'] = datetime.datetime.fromtimestamp(time.time())
     from dao import DataAccessObject
     with DataAccessObject() as data_access_object:
         data_access_object.insert(data)
