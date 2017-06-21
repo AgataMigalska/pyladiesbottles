@@ -14,7 +14,7 @@ import mysql.connector
 
 
 def get_config():
-    base_dir = os.path.dirname(os.path.dirname(__file__))
+    base_dir = os.path.dirname(__file__)
     config = configparser.ConfigParser()
     config.read(os.path.join(base_dir, 'db', 'settings.ini'))
     return config
