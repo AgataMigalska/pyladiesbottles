@@ -2,10 +2,10 @@
 <div class="col-sm-8 blog-main">
   %for idx, post in enumerate(posts):
   <div class="blog-post">
-    <h2 class="blog-post-title">{{post['title']}}</h2>
-    <p class="blog-post-meta">{{post['date']}} by <a href="#">{{post['author']}}</a></p>
+    <h2 class="blog-post-title">{{post['TITLE']}}</h2>
+    <p class="blog-post-meta">{{post['POST_DATE']}} by <a href="#">{{post['AUTHOR']}}</a></p>
 
-    <p>{{post['post']}}</p>
+    <p>{{post['CONTENT']}}</p>
   </div><!-- /.blog-post -->
   %end
 

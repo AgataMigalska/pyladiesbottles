@@ -47,6 +47,6 @@ def add_entry():
     return blog()
     
 application = bottle.default_app()
-application.run()
+# application.run()
 
 

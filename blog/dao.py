@@ -39,7 +39,7 @@ class DataAccessObject(object):
     def __enter__(self):
         print('entering dao')
         self.connection = get_database_connection()
-        self.cursor = self.connection.cursor()
+        self.cursor = self.connection.cursor(dictionary=True)
         return self
 
     def close(self):
@@ -69,7 +69,7 @@ class DataAccessObject(object):
         
         
     def select(self):
-        return self.execute('SELECT TITLE, CONTENT, AUTHOR, POST_DATE FROM POSTS')
+        return self.execute('SELECT TITLE, CONTENT, AUTHOR, POST_DATE FROM POSTS', {})
         
     def insert(self, data):
         return self.execute("INSERT INTO POSTS(TITLE, CONTENT, AUTHOR, " + 
